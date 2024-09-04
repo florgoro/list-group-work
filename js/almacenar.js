@@ -1,42 +1,42 @@
 // Obtener referencias a los elementos del DOM
 const itemInput = document.getElementById('item');
-const agregarBtn = document.getElementById('agregar');
-const limpiarBtn = document.getElementById('limpiar');
-const contenedor = document.getElementById('contenedor');
+const addBtn = document.getElementById('agregar');
+const clearBtn = document.getElementById('limpiar');
+const container = document.getElementById('contenedor');
 
 // Función para cargar los ítems desde localStorage y actualizar la vista
-function cargarItems() {
+function uploadItems() {
   const items = JSON.parse(localStorage.getItem('listadoItems')) || [];
-  contenedor.innerHTML = '';
+  container.innerHTML = '';
   items.forEach((item, index) => {
     const li = document.createElement('li');
     li.textContent = item;
     li.className = 'list-group-item';
-    contenedor.appendChild(li);
+    container.appendChild(li);
   });
 }
 
 // Función para agregar un nuevo ítem
-function agregarItem() {
+function addItem() {
   const nuevoItem = itemInput.value.trim();
   if (nuevoItem) {
     const items = JSON.parse(localStorage.getItem('listadoItems')) || [];
     items.push(nuevoItem);
     localStorage.setItem('listadoItems', JSON.stringify(items));
-    cargarItems();
+    uploadItems();
     itemInput.value = ''; // Limpiar el campo de entrada
   }
 }
 
 // Función para limpiar el listado
-function limpiarItems() {
+function clearItems() {
   localStorage.removeItem('listadoItems');
-  cargarItems();
+  uploadItems();
 }
 
 // Asignar eventos a los botones
-agregarBtn.addEventListener('click', agregarItem);
-limpiarBtn.addEventListener('click', limpiarItems);
+addBtn.addEventListener('click', addItem);
+clearBtn.addEventListener('click', clearItems);
 
 // Cargar los ítems al cargar la página
-window.addEventListener('load', cargarItems);
+window.addEventListener('load', uploadItems);
